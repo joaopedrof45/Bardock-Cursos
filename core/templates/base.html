@@ -8,9 +8,18 @@
     <title> Bardock Cursos</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" />
 </head>
 <body>
 <div class="content">
+        {% if messages %}
+        <div class="pure-g-r content-ribbon"></div>
+        <aside class="pure-u-1">    
+           {% for message in messages %}
+            <p>{{ message}}</p>
+            {% endfor %}
+        </aside>
+        {% endif  %}
     <div class="header">
         <div class="pure-menu pure-menu-open pure-menu-fixed pure-menu-horizontal">
             <a class="pure-menu-heading" href="{% url 'home'%}">Bardock Cursos</a>
@@ -18,6 +27,13 @@
                 <li class="pure-menu-selected"><a href="{% url 'home'%}">Início</a></li>
                 <li><a href="{% url 'cursos'%}">Cursos</a></li>
                 <li><a href="{% url 'contact'%}">Contato</a></li>
+                {% if user.is_authenticated %}
+                <li><a class="nav-link" href="{% url 'dashboard' %}">Painel</a></li>
+                <li><a class="nav-link" href="{% url 'logout' %}">Sair</a></li>
+                {% else %}
+                <li><a href="{% url 'login' %}">Entrar</a></li>
+                {% endif %}
+                <li class="pure-menu-selected">Olá, {{user}}</li>
             </ul>
         </div>
     </div>
