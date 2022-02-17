@@ -17,7 +17,7 @@ Including another URLconf
 
 from django.contrib.auth import views as auth_views
 from django.contrib import admin
-from django.urls import path
+from django.urls import path , include
 
 import accounts.views
 import core.views
@@ -25,6 +25,24 @@ import courses.views
 from django.conf import settings
 from django.conf.urls.static import static
 
+
+from rest_framework import routers
+from courses.api import CourseViewSet
+from accounts.api import UserViewSet
+
+
+
+
+#iniciando a rota padrao para api restapi
+api_router = routers.DefaultRouter()
+
+#incluindo classe nas rotas de api do restapi
+
+#api de cursos
+api_router.register(r"courses", CourseViewSet)
+
+# api de usuario
+api_router.register(r"usuarios", UserViewSet)
 
 
 urlpatterns = [
@@ -46,6 +64,7 @@ urlpatterns = [
     path('password_reset/', accounts.views.password_reset, name="password_reset"),
     path(r'confirmar-nova-senha/<key>', accounts.views.password_reset_confirm, name='password_reset_confirm'),
     path('inscricao/', courses.views.enrollment, name="enrollment"),
+    path("api/", include(api_router.urls)),
 
     #o correto seria ^(?P<slug>[\w_-]+)/$ ao final , mas a epxressao regular nao esta sendo reconhecida
 ]
