@@ -1,0 +1,1 @@
+web: gunicorn BARDOCK-CURSOS.simplemooc.wsgi
